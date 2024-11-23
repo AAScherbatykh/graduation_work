@@ -6,8 +6,8 @@ class TaskManager:
     """ Класс, описывающий планировщик задач.
 
     """
-
-    def add_task(self, title: str, description: str,
+    @staticmethod
+    def add_task(title: str, description: str,
                  priority: str, deadline: datetime, status: str):
         """ Добавление задачи.
 
@@ -25,14 +25,17 @@ class TaskManager:
         cursor = connection.cursor()
 
         cursor.execute(
-            f'''INSERT INTO tasks (title, description, priority, deadline, status, created_at)
-                    VALUES('{title}', '{description}', '{priority}', '{deadline}', '{status}', '{created_at}'
-                    ) ''')
+            f'''INSERT INTO tasks (title, description, priority, deadline,
+            status, created_at)
+            VALUES('{title}', '{description}', '{priority}', '{deadline}',
+            '{status}', '{created_at}'
+            ) ''')
 
         connection.commit()
         connection.close()
 
-    def get_tasks_all(self) -> list:
+    @staticmethod
+    def get_tasks_all() -> list:
         """ Получение всех задач.
 
         Returns:
@@ -49,7 +52,8 @@ class TaskManager:
 
         return tasks
 
-    def search_tasks(self, filter: str):
+    @staticmethod
+    def search_tasks(filter: str = ''):
         """ Фильтрация задач по условию фильтрации.
 
         Args:
@@ -61,7 +65,7 @@ class TaskManager:
         """
 
         if filter.strip() == '':
-            tasks: list = self.get_tasks_all()
+            tasks: list = TaskManager.get_tasks_all()
 
         else:
             connection = sqlite3.connect('task_manager.db')
@@ -80,7 +84,8 @@ class TaskManager:
 
         return tasks
 
-    def get_sorted_tasks(self, fields: list) -> list:
+    @staticmethod
+    def get_sorted_tasks(fields: list) -> list:
         """ Сортировка задач по заданному полю или нескольким полям.
             По умолчанию - по возрастанию.
 
@@ -92,7 +97,7 @@ class TaskManager:
 
         """
         if len(fields) == 0:
-            return self.get_tasks_all()
+            return TaskManager.get_tasks_all()
         else:
             connection = sqlite3.connect('task_manager.db')
             cursor = connection.cursor()
@@ -106,12 +111,12 @@ class TaskManager:
             return tasks
 
 
-#if __name__ == '__main__':
+# if __name__ == '__main__':
 
-    #task1: TaskManager = TaskManager()
+    # task1: TaskManager = TaskManager()
     # task1.add_task('Проект 1', 'Закупка канцтоваров', 'высокий', '30.11.2024', 'в работе')
     # task1.add_task('Проект 2', 'День охраны труда', 'высокий', '01.12.2024', 'запланирован')
     # task1.add_task('Проект 3', 'Встреча с банком', 'средний', '05.12.2024', 'запланирован')
     # print(task1.search_tasks('охраны'))
-    #print(task1.get_sorted_tasks(['description', 'title']))
-    #print(task1.search_tasks(' '))
+    # print(task1.get_sorted_tasks(['description', 'title']))
+    # print(task1.search_tasks(' '))
