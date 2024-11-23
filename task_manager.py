@@ -106,11 +106,12 @@ class TaskManager:
             return tasks
 
 
-if __name__ == '__main__':
+#if __name__ == '__main__':
 
-    task1: TaskManager = TaskManager()
+    #task1: TaskManager = TaskManager()
     # task1.add_task('Проект 1', 'Закупка канцтоваров', 'высокий', '30.11.2024', 'в работе')
     # task1.add_task('Проект 2', 'День охраны труда', 'высокий', '01.12.2024', 'запланирован')
     # task1.add_task('Проект 3', 'Встреча с банком', 'средний', '05.12.2024', 'запланирован')
     # print(task1.search_tasks('охраны'))
-    print(task1.get_sorted_tasks(['description', 'title']))
+    #print(task1.get_sorted_tasks(['description', 'title']))
+    #print(task1.search_tasks(' '))
