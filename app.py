@@ -12,13 +12,13 @@ st.title('Список дел')
 
 # Форма для добавления задачи
 with st.form(key='add_task_form'):
-    title = st.text_input('Название задачи')
-    description = st.text_area('Описание задачи')
+    title: str | None = st.text_input('Название задачи')
+    description: str | None = st.text_area('Описание задачи')
     priority = st.selectbox('Приоритет', ['Низкий', 'Средний', 'Высокий'])
     deadline = st.date_input('Дедлайн', datetime.today())
     status = st.selectbox('Статус', ['Новая', 'В процессе', 'Завершена'])
 
-    submit_button = st.form_submit_button(label='Добавить задачу')
+    submit_button: bool = st.form_submit_button(label='Добавить задачу')
 
     if submit_button:
         TaskManager.add_task(
@@ -32,14 +32,15 @@ with st.form(key='add_task_form'):
         st.success('Задача добавлена!')
 
 # Фильтрация и поиск задач
-search_query = st.text_input('Поиск задач')
+tasks: list = []
+search_query: str | None = st.text_input('Поиск задач')
 if search_query:
-    tasks = TaskManager.search_tasks(search_query)
+    tasks: list = TaskManager.search_tasks(search_query)
 else:
-    selected_options = st.multiselect(
-        'Сортировать по', [
-            'Название', 'Описание', 'Приоритет', 'Дедлайн', 'Статус', 'Создано'])
-    column_names = {
+    selected_options: list = st.multiselect(
+        'Сортировать по', ['Название', 'Описание', 'Приоритет',
+                           'Дедлайн', 'Статус', 'Создано'])
+    column_names: dict = {
         'Название': 'title',
         'Описание': 'description',
         'Приоритет': 'priority',
@@ -50,11 +51,11 @@ else:
 
     for i in range(len(selected_options)):
         selected_options[i] = column_names[selected_options[i]]
-    tasks = TaskManager.get_sorted_tasks(selected_options)
+    tasks: list = TaskManager.get_sorted_tasks(selected_options)
 
 # Отображение задач
 if tasks:
-    df_tasks = pd.DataFrame(tasks)
+    df_tasks: pd.DataFrame = pd.DataFrame(tasks)
     df_tasks.columns = [
         'ID',
         'Название',

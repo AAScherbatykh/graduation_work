@@ -26,10 +26,8 @@ class TaskManager:
 
         cursor.execute(
             """INSERT INTO tasks (title, description, priority, deadline,
-                status, created_at)
-                VALUES(?, ?, ?, ?, ?, ?)""", (title, description, priority,
-                deadline, status, created_at)
-                )
+            status, created_at) VALUES(?, ?, ?, ?, ?, ?)""",
+            (title, description, priority, deadline, status, created_at))
 
         connection.commit()
         connection.close()
@@ -53,7 +51,7 @@ class TaskManager:
         return tasks
 
     @staticmethod
-    def search_tasks(filter: str = ''):
+    def search_tasks(filter: str = '') -> list:
         """ Фильтрация задач по условию фильтрации.
 
         Args:
@@ -66,12 +64,11 @@ class TaskManager:
 
         if filter.strip() == '':
             tasks: list = TaskManager.get_tasks_all()
-
         else:
             connection = sqlite3.connect('task_manager.db')
             cursor = connection.cursor()
 
-            sql_query = """
+            sql_query: str = """
             SELECT * FROM tasks t WHERE t.title LIKE ?
             OR t.description LIKE ?
             OR t.priority LIKE ?
@@ -103,11 +100,11 @@ class TaskManager:
             connection = sqlite3.connect('task_manager.db')
             cursor = connection.cursor()
 
-            sql_query = f'SELECT * FROM tasks ORDER BY {", ".join(fields)}'
+            sql_query: str = (f'SELECT * FROM tasks ORDER BY '
+                              f'{", ".join(fields)}')
 
             cursor.execute(sql_query)
             tasks: list = cursor.fetchall()
 
             connection.close()
             return tasks
-        
