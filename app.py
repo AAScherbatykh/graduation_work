@@ -1,7 +1,11 @@
 import streamlit as st
 import pandas as pd
+import db
 from datetime import datetime
 from task_manager import TaskManager
+
+# Создание базы данных
+db.create_database()
 
 # Интерфейс Streamlit
 st.title('Список дел')
