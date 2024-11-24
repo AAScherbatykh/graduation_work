@@ -25,11 +25,11 @@ class TaskManager:
         cursor = connection.cursor()
 
         cursor.execute(
-            f'''INSERT INTO tasks (title, description, priority, deadline,
-            status, created_at)
-            VALUES('{title}', '{description}', '{priority}', '{deadline}',
-            '{status}', '{created_at}'
-            ) ''')
+            """INSERT INTO tasks (title, description, priority, deadline,
+                status, created_at)
+                VALUES(?, ?, ?, ?, ?, ?)""", (title, description, priority,
+                deadline, status, created_at)
+                )
 
         connection.commit()
         connection.close()
@@ -71,13 +71,14 @@ class TaskManager:
             connection = sqlite3.connect('task_manager.db')
             cursor = connection.cursor()
 
-            sql_query = (
-                f"""SELECT * FROM tasks t WHERE t.title LIKE '%{filter}%'
-            OR t.description LIKE '%{filter}%'
-            OR t.priority LIKE '%{filter}%'
-            OR t.status LIKE '%{filter}%'""")
-            # print(sql_query)
-            cursor.execute(sql_query)
+            sql_query = """
+            SELECT * FROM tasks t WHERE t.title LIKE ?
+            OR t.description LIKE ?
+            OR t.priority LIKE ?
+            OR t.status LIKE ?
+            """
+
+            cursor.execute(sql_query, [f"%{filter}%"] * 4)
             tasks: list = cursor.fetchall()
 
             connection.close()
@@ -103,20 +104,10 @@ class TaskManager:
             cursor = connection.cursor()
 
             sql_query = f'SELECT * FROM tasks ORDER BY {", ".join(fields)}'
-            print(sql_query)
+
             cursor.execute(sql_query)
             tasks: list = cursor.fetchall()
 
             connection.close()
             return tasks
-
-
-# if __name__ == '__main__':
-
-    # task1: TaskManager = TaskManager()
-    # task1.add_task('Проект 1', 'Закупка канцтоваров', 'высокий', '30.11.2024', 'в работе')
-    # task1.add_task('Проект 2', 'День охраны труда', 'высокий', '01.12.2024', 'запланирован')
-    # task1.add_task('Проект 3', 'Встреча с банком', 'средний', '05.12.2024', 'запланирован')
-    # print(task1.search_tasks('охраны'))
-    # print(task1.get_sorted_tasks(['description', 'title']))
-    # print(task1.search_tasks(' '))
+        
