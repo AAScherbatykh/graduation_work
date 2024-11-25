@@ -9,7 +9,7 @@ def create_database():
 
     cursor.execute('''CREATE TABLE IF NOT EXISTS tasks (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title TEXT NOT NULL UNIQUE,
+    title TEXT NOT NULL,
     description TEXT NOT NULL,
     priority TEXT NOT NULL,
     deadline DATETIME NOT NULL,
