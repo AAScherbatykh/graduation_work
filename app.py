@@ -77,6 +77,23 @@ if tasks:
         'Статус',
         'Создано']
 
-    st.write(df_tasks)
+    # Удаление записей
+    event = st.dataframe(
+        df_tasks,
+        use_container_width=True,
+        hide_index=True,
+        on_select="rerun",
+        selection_mode="multi-row",
+    )
+    rows = event.selection.rows
+    ids: list = df_tasks.iloc[rows]['ID'].values.tolist()
+
+    del_button = st.button(label='Удалить')
+
+    if del_button and len(ids) > 0:
+        for i in range(len(ids)):
+            TaskManager.delete_task(ids[i])
+        st.rerun()
+
 else:
     st.write("Нет задач для отображения.")

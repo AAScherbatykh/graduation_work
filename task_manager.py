@@ -3,9 +3,8 @@ from datetime import datetime
 
 
 class TaskManager:
-    """ Класс, описывающий планировщик задач.
+    """ Класс, описывающий планировщик задач."""
 
-    """
     @staticmethod
     def add_task(title: str, description: str,
                  priority: str, deadline: datetime, status: str):
@@ -62,7 +61,6 @@ class TaskManager:
             Список отфильтрованных задач.
 
         """
-
         if filter.strip() == '':
             tasks: list = TaskManager.get_tasks_all()
         else:
@@ -115,3 +113,19 @@ class TaskManager:
 
             connection.close()
             return tasks
+
+    @staticmethod
+    def delete_task(ident: int):
+        """ Удаление записи по id записи.
+
+        Args:
+            ident: id записи.
+
+        """
+        connection = sqlite3.connect('task_manager.db')
+        cursor = connection.cursor()
+
+        cursor.execute('DELETE FROM tasks WHERE id = ?', [ident])
+
+        connection.commit()
+        connection.close()
