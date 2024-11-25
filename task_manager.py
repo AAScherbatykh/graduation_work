@@ -19,7 +19,8 @@ class TaskManager:
             status: Статус задачи.
 
         """
-        created_at: datetime = datetime.now()
+        now = datetime.now()
+        created_at: datetime = now.strftime("%d.%m.%Y %H:%M:%S")
 
         connection = sqlite3.connect('task_manager.db')
         cursor = connection.cursor()
@@ -83,12 +84,13 @@ class TaskManager:
         return tasks
 
     @staticmethod
-    def get_sorted_tasks(fields: list) -> list:
+    def get_sorted_tasks(fields: list, ascending: bool = True) -> list:
         """ Сортировка задач по заданному полю или нескольким полям.
             По умолчанию - по возрастанию.
 
         Args:
             fields: Список полей.
+            ascending: Тип сортировки - по возрастанию или по убыванию.
 
         Returns:
             Список отсортированных задач.
@@ -100,8 +102,13 @@ class TaskManager:
             connection = sqlite3.connect('task_manager.db')
             cursor = connection.cursor()
 
+            if ascending:
+                rule_sort = 'ASC'
+            else:
+                rule_sort = 'DESC'
+
             sql_query: str = (f'SELECT * FROM tasks ORDER BY '
-                              f'{", ".join(fields)}')
+                              f'{", ".join(fields)} {rule_sort}')
 
             cursor.execute(sql_query)
             tasks: list = cursor.fetchall()
