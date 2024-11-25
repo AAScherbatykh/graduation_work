@@ -17,7 +17,7 @@ except Exception as ex:
     st.error(f'Возникла ошибка создания базы данных: {ex}')
 
 # Форма для добавления задачи
-with st.form(key='add_task_form'):
+with st.form(key='add_task_form', clear_on_submit=True):
     title: str | None = st.text_input('Название задачи')
     description: str | None = st.text_area('Описание задачи')
     priority = st.selectbox('Приоритет', ['Низкий', 'Средний', 'Высокий'])
