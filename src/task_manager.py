@@ -30,6 +30,7 @@ class TaskManager:
             (title, description, priority, deadline, status, created_at))
 
         connection.commit()
+        cursor.close()
         connection.close()
 
     @staticmethod
@@ -46,6 +47,7 @@ class TaskManager:
         cursor.execute('SELECT * FROM tasks')
         tasks: list = cursor.fetchall()
 
+        cursor.close()
         connection.close()
 
         return tasks
@@ -77,6 +79,7 @@ class TaskManager:
             cursor.execute(sql_query, [f"%{filter}%"] * 4)
             tasks: list = cursor.fetchall()
 
+            cursor.close()
             connection.close()
 
         return tasks
@@ -111,6 +114,7 @@ class TaskManager:
             cursor.execute(sql_query)
             tasks: list = cursor.fetchall()
 
+            cursor.close()
             connection.close()
             return tasks
 
@@ -128,4 +132,5 @@ class TaskManager:
         cursor.execute('DELETE FROM tasks WHERE id = ?', [ident])
 
         connection.commit()
+        cursor.close()
         connection.close()

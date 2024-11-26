@@ -1,8 +1,8 @@
 import streamlit as st
 import pandas as pd
-import db
 from datetime import datetime
-from task_manager import TaskManager
+from src import db
+from src.task_manager import TaskManager
 
 
 # Интерфейс Streamlit

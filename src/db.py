@@ -18,4 +18,5 @@ def create_database():
     )''')
 
     connection.commit()
+    cursor.close()
     connection.close()
