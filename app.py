@@ -1,9 +1,10 @@
-import streamlit as st
-import pandas as pd
 from datetime import datetime
+
+import pandas as pd
+import streamlit as st
+
 from src import db
 from src.task_manager import TaskManager
-
 
 # Интерфейс Streamlit
 st.set_page_config(page_title="Список дел")
