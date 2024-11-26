@@ -1,6 +1,7 @@
+import sqlite3
 import unittest
 from datetime import datetime
-import sqlite3
+
 # import os
 from src import db
 from src.task_manager import TaskManager

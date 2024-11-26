@@ -1,6 +1,7 @@
-import unittest
-from src import db
 import os
+import unittest
+
+from src import db
 
 
 class TestDatabase(unittest.TestCase):
